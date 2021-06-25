@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Document</title>
+   <style>
+      body {
+         width: 100vw;
+         height: 100vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         margin: 0;
+      }
+      
+      canvas {
+         border: 1px solid;
+      }
+   </style>
+</head>
+<body>
+   
+   <canvas></canvas>
+   
+   <script>
+      'use strict'
+      
+      // VARIABLES
+      
+      const cnvs = document.querySelector('canvas'),
+            cnvsSz = 500,
+            cnvsSzScl = 1,
+            cnvsSzPx = cnvsSz * cnvsSzScl,
+            ctx = cnvs.getContext('2d')
+      
+      cnvs.style.width = cnvsSz + 'px'
+      cnvs.style.height = cnvsSz + 'px'
+      
+      cnvs.width = cnvsSzPx
+      cnvs.height = cnvsSzPx
+      
+      // CANVAS MATRIX
+      
+      const cnvsPx = [],
+            cnvsPxRes = 16,
+            cnvsPxStp = cnvsSzPx / cnvsPxRes
+            
+      for(let i = 0; i < cnvsPxRes; i++) {
+         cnvsPx[i] = []
+         
+         for(let j = 0; j < cnvsPxRes; j++) {
+            
+            cnvsPx[i][j] = 0
+         }
+      }
+      
+      for(let i = 0; i < cnvsPxRes; i++) {
+         for(let j = 0; j < cnvsPxRes; j++) {
+            
+            const a = cnvsPxRes / 2
+            
+            i < a && j < a ? cnvsPx[i][j] = 1 : {}
+            
+            if((a <= i && i < a * 2) && (a <= j && j < a * 2)) cnvsPx[i][j] = 2
+         }
+      }
+      
+      // ctx.fillRect(0, 0, cnvsSzPx / 2, cnvsSzPx / 2)
+      
+      // RENDER
+      
+      for(let i = 0; i < cnvsPxRes; i++) {
+         for(let j = 0; j < cnvsPxRes; j++) {
+            
+            ctx.fillStyle = `rgba(0, 0, 0, ${cnvsPx[i][j]})`
+            ctx.fillRect(cnvsPxStp * j, cnvsPxStp * i, cnvsPxStp, cnvsPxStp)
+         }
+      }
+      
+      // CNVSPX ON CONSOLE LOG
+      
+      function cnvsPxLog() {
+         let cnsllgcnvsPxStr = ''
+         
+         for(let i = 0; i < cnvsPxRes; i++) {
+            cnsllgcnvsPxStr += cnvsPx[i].toString() + '\n'
+         }
+         
+         console.log(cnsllgcnvsPxStr)
+      }
+      
+      cnvsPxLog()
+      
+   </script>
+</body>
+</html>
